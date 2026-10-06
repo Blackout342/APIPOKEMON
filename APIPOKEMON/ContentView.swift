@@ -2,20 +2,15 @@
 //  ContentView.swift
 //  APIPOKEMON
 //
-//  Created by Pepe on 06/10/26.
+//  Punto de entrada visual. Delega en la lista para no mezclar responsabilidades.
+//  MVVM: la vista raíz no tiene estado de red; eso vive en los ViewModels.
 //
 
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        PokemonListView()
     }
 }
 
