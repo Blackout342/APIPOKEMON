@@ -40,7 +40,7 @@ nonisolated struct PokemonDetail: Identifiable, Hashable {
     let abilities: [PokemonAbility]
     let stats: [PokemonStat]
     let genus: String
-    /// Texto de la Pokédex (endpoint de especie).
+    /// Texto de la Pokédex en inglés (endpoint de especie). No se traduce.
     let about: String
 
     var numberText: String {

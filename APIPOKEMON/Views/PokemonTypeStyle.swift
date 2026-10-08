@@ -2,36 +2,14 @@
 //  PokemonTypeStyle.swift
 //  APIPOKEMON
 //
-//  Color y nombre en español de cada tipo. Solo presentación.
-//  Clean Code — la vista del detalle no acumula este catálogo.
-//
+
 
 import SwiftUI
 
 enum PokemonTypeStyle {
+    /// "fire" se muestra como "Fire". La palabra no se traduce.
     static func title(for type: String) -> String {
-        switch type {
-        case "normal": return "Normal"
-        case "fire": return "Fuego"
-        case "water": return "Agua"
-        case "grass": return "Planta"
-        case "electric": return "Eléctrico"
-        case "ice": return "Hielo"
-        case "fighting": return "Lucha"
-        case "poison": return "Veneno"
-        case "ground": return "Tierra"
-        case "flying": return "Volador"
-        case "psychic": return "Psíquico"
-        case "bug": return "Bicho"
-        case "rock": return "Roca"
-        case "ghost": return "Fantasma"
-        case "dragon": return "Dragón"
-        case "dark": return "Siniestro"
-        case "steel": return "Acero"
-        case "fairy": return "Hada"
-        default:
-            return type.replacingOccurrences(of: "-", with: " ").capitalized
-        }
+        type.replacingOccurrences(of: "-", with: " ").capitalized
     }
 
     static func color(for type: String) -> Color {
@@ -58,15 +36,9 @@ enum PokemonTypeStyle {
     }
 
     static func statTitle(_ name: String) -> String {
-        switch name {
-        case "hp": return "PS"
-        case "attack": return "Ataque"
-        case "defense": return "Defensa"
-        case "special-attack": return "Ataque especial"
-        case "special-defense": return "Defensa especial"
-        case "speed": return "Velocidad"
-        default:
-            return name.replacingOccurrences(of: "-", with: " ").capitalized
+        if name == "hp" {
+            return "HP"
         }
+        return name.replacingOccurrences(of: "-", with: " ").capitalized
     }
 }

@@ -71,7 +71,7 @@ nonisolated struct PokemonService: PokemonFetching {
         return pokemon.makeDetail(species: species)
     }
 
-    /// GET con código HTTP y errores de red ya traducidos.
+    /// GET con código HTTP y errores de red ya traducidos a un mensaje.
     private func request(_ url: URL) async throws -> Data {
         do {
             let (data, response) = try await session.data(from: url)
@@ -141,7 +141,7 @@ nonisolated struct PokemonService: PokemonFetching {
 
 // MARK: - JSON de la PokéAPI
 // Estos tipos viven aquí a propósito: la vista nunca ve la forma del JSON.
-// Clean Code — responsabilidad única del servicio: traducir la respuesta.
+// Clean Code — responsabilidad única del servicio: mapear la respuesta.
 
 nonisolated private struct PokemonListDTO: Decodable {
     let results: [PokemonEntryDTO]
@@ -184,8 +184,8 @@ nonisolated private struct PokemonDTO: Decodable {
             stats: stats.map {
                 PokemonStat(name: $0.stat.name, value: $0.baseStat)
             },
-            genus: species?.preferredGenus ?? "Pokémon",
-            about: species?.preferredAbout ?? "No hay descripción disponible."
+            genus: species?.preferredGenus ?? "Pokemon",
+            about: species?.preferredAbout ?? "No description available."
         )
     }
 }
@@ -256,10 +256,9 @@ nonisolated private struct SpeciesDTO: Decodable {
         return Self.clean(text)
     }
 
-    /// Español primero. Si no hay ficha en español, usa la inglesa.
+    /// Texto en inglés de la API. No se traduce.
     private static func preferredText(_ pairs: [(String, String)]) -> String? {
-        let chosen = pairs.first { $0.0 == "es" } ?? pairs.first { $0.0 == "en" }
-        return chosen?.1
+        pairs.first { $0.0 == "en" }?.1
     }
 
     /// Las fichas antiguas traen saltos de línea y un salto de página (\u{000c}).
@@ -315,8 +314,8 @@ nonisolated struct PreviewPokemonService: PokemonFetching {
                 PokemonStat(name: "special-defense", value: 65),
                 PokemonStat(name: "speed", value: 45)
             ],
-            genus: "Pokémon Semilla",
-            about: "Una rara semilla fue plantada en su espalda al nacer. La planta brota y crece con este Pokémon."
+            genus: "Seed Pokemon",
+            about: "A strange seed was planted on its back at birth. The plant sprouts and grows with this Pokemon."
         )
     }
 }
