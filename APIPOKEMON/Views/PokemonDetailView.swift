@@ -2,11 +2,6 @@
 //  PokemonDetailView.swift
 //  APIPOKEMON
 //
-//  Nivel 2: ficha de un Pokémon.
-//  MVVM: PokemonDetailViewModel carga el GET de detalle y el de especie.
-//  Clean Code — el cuerpo elige el estado; el contenido vive en subvistas.
-//
-
 import SwiftUI
 
 struct PokemonDetailView: View {
@@ -19,7 +14,7 @@ struct PokemonDetailView: View {
     var body: some View {
         Group {
             if viewModel.isLoading && viewModel.detail == nil {
-                LoadingView(title: "Cargando ficha…")
+                LoadingView(title: "Loading Pokemon…")
             } else if let message = viewModel.errorMessage, viewModel.detail == nil {
                 ErrorStateView(message: message, isOffline: viewModel.isOffline) {
                     Task { await viewModel.load() }
@@ -28,7 +23,7 @@ struct PokemonDetailView: View {
                 DetailContent(detail: detail)
             } else {
                 ErrorStateView(
-                    message: "No se encontró este Pokémon.",
+                    message: "This Pokemon could not be found.",
                     isOffline: false
                 ) {
                     Task { await viewModel.load() }
@@ -91,7 +86,7 @@ private struct DetailContent: View {
 
     private var aboutSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            sectionTitle("Descripción")
+            sectionTitle("Description")
             Text(detail.about)
                 .font(.body)
                 .foregroundStyle(.primary)
@@ -101,7 +96,7 @@ private struct DetailContent: View {
 
     private var typesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            sectionTitle("Tipos")
+            sectionTitle("Types")
             HStack(spacing: 8) {
                 ForEach(detail.types, id: \.self) { type in
                     Text(PokemonTypeStyle.title(for: type))
@@ -117,22 +112,22 @@ private struct DetailContent: View {
 
     private var metrics: some View {
         HStack(spacing: 12) {
-            MetricCard(title: "Altura", value: detail.heightText)
-            MetricCard(title: "Peso", value: detail.weightText)
-            MetricCard(title: "Experiencia", value: detail.experienceText)
+            MetricCard(title: "Height", value: detail.heightText)
+            MetricCard(title: "Weight", value: detail.weightText)
+            MetricCard(title: "Experience", value: detail.experienceText)
         }
     }
 
     private var abilitiesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            sectionTitle("Habilidades")
+            sectionTitle("Abilities")
             ForEach(detail.abilities) { ability in
                 HStack {
                     Text(ability.displayName)
                         .font(.body)
                     Spacer()
                     if ability.isHidden {
-                        Text("Oculta")
+                        Text("Hidden")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(.secondary)
                     }
@@ -144,7 +139,7 @@ private struct DetailContent: View {
 
     private var statsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionTitle("Estadísticas")
+            sectionTitle("Stats")
             ForEach(detail.stats) { stat in
                 StatBar(name: stat.name, value: stat.value, tint: accent)
             }

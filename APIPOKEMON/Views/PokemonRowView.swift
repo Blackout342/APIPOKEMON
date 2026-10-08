@@ -2,9 +2,7 @@
 //  PokemonRowView.swift
 //  APIPOKEMON
 //
-//  Una fila de la lista: número, nombre e imagen.
-//  Clean Code — vista pequeña. No navega ni descarga la ficha completa.
-//
+
 
 import SwiftUI
 

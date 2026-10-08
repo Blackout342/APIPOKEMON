@@ -1,12 +1,6 @@
 //
 //  PokemonListView.swift
 //  APIPOKEMON
-//
-//  Nivel 1: lista dentro de NavigationStack.
-//  MVVM: la vista observa PokemonListViewModel y no llama a URLSession.
-//  Clean Code — el filtro de búsqueda es estado de esta pantalla,
-//  porque no cambia lo que llegó de la API.
-//
 
 import SwiftUI
 
@@ -21,31 +15,18 @@ struct PokemonListView: View {
     var body: some View {
         NavigationStack {
             content
-                .navigationTitle("Pokédex")
+                .navigationTitle("Pokedex")
                 .navigationDestination(for: PokemonSummary.self) { summary in
-                    // Nivel 2: el toque de la fila abre el detalle de ese Pokémon.
                     PokemonDetailView(summary: summary)
                 }
-                .searchable(text: $searchText, prompt: "Buscar por nombre o número")
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            Task { await viewModel.load() }
-                        } label: {
-                            Image(systemName: "arrow.clockwise")
-                        }
-                        .disabled(viewModel.isLoading)
-                        .accessibilityLabel("Actualizar")
-                    }
-                }
+                .searchable(text: $searchText, prompt: "Search by name or number")
         }
         .task {
-            // Solo la primera vez. Un reintento posterior lo dispara el botón.
             guard !viewModel.hasLoaded else { return }
             await viewModel.load()
         }
         .alert(
-            "No se pudo actualizar",
+            "Could not refresh",
             isPresented: showRefreshError
         ) {
             Button("OK", role: .cancel) {
@@ -58,8 +39,6 @@ struct PokemonListView: View {
 
     @ViewBuilder
     private var content: some View {
-        // El orden importa: durante un reintento isLoading vuelve a true
-        // y la lista sigue vacía. Ahí se muestra la carga, no "sin resultados".
         if viewModel.isLoading && viewModel.pokemons.isEmpty {
             LoadingView()
         } else if let message = viewModel.errorMessage, viewModel.pokemons.isEmpty {
@@ -70,9 +49,9 @@ struct PokemonListView: View {
             LoadingView()
         } else if visiblePokemons.isEmpty {
             ContentUnavailableView {
-                Label("Sin resultados", systemImage: "magnifyingglass")
+                Label("No results", systemImage: "magnifyingglass")
             } description: {
-                Text("No hay Pokémon que coincidan con “\(searchText)”.")
+                Text("No Pokemon match \"\(searchText)\".")
             }
         } else {
             List(visiblePokemons) { pokemon in
@@ -87,8 +66,6 @@ struct PokemonListView: View {
         }
     }
 
-    /// Si el refresco falla y la lista ya tiene datos, el error va en alerta.
-    /// Así no se esconde lo que el usuario ya podía ver.
     private var showRefreshError: Binding<Bool> {
         Binding(
             get: { viewModel.errorMessage != nil && !viewModel.pokemons.isEmpty },
@@ -99,7 +76,9 @@ struct PokemonListView: View {
             }
         )
     }
-
+// esta es la funcion que filtra los pokemons por nombre, numero o id
+// se usa en la lista de pokemons
+// se usa en la lista de pokemons
     private var visiblePokemons: [PokemonSummary] {
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !query.isEmpty else { return viewModel.pokemons }

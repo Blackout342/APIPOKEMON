@@ -15,14 +15,11 @@ final class PokemonDetailViewModel {
     let summary: PokemonSummary
 
     private(set) var detail: PokemonDetail?
-    /// Arranca en carga: la ficha siempre pide la red al abrirse.
     private(set) var isLoading = true
     private(set) var errorMessage: String?
     private(set) var isOffline = false
 
     private let service: PokemonFetching
-
-    /// nonisolated por la misma razón que en la lista: el init de la vista no está aislado.
     nonisolated init(summary: PokemonSummary, service: PokemonFetching = PokemonService()) {
         self.summary = summary
         self.service = service

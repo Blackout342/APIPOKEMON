@@ -1,12 +1,12 @@
 # APIPOKEMON
 
-Pokédex en SwiftUI. Muestra la primera generación de Pokémon en una lista y, al tocar una fila, abre la ficha con imagen, descripción, tipos, medidas y estadísticas.
+A SwiftUI Pokedex. It shows the first generation of Pokemon in a list and, when a row is tapped, opens the entry with image, description, types, measurements, and stats.
 
-## Qué hace la app
+## What the app does
 
-- Pide la lista de Pokémon y la muestra en un `List` dentro de un `NavigationStack`.
-- Al tocar una fila abre un detalle con la ilustración oficial, el texto de la Pokédex, los tipos, altura, peso, habilidades y estadísticas.
-- Mientras llegan los datos muestra un `ProgressView`.
-- Si no hay conexión, muestra «Sin conexión. Inténtalo de nuevo.» y un botón para reintentar.
-- Si la API responde con error, muestra el código de estado. Un fallo no cierra la app.
-- Se puede buscar por nombre o número y actualizar la lista deslizando hacia abajo.
+- Requests the Pokemon list and shows it in a `List` inside a `NavigationStack`.
+- Tapping a row opens a detail with the official artwork, the Pokedex text, types, height, weight, abilities, and stats.
+- Shows a `ProgressView` while data is loading.
+- If there is no connection, shows "No connection. Please try again." and a button to try again.
+- If the API responds with an error, shows the status code. A failure does not close the app.
+- Search by name or number, and refresh the list by pulling down.

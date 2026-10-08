@@ -1,10 +1,3 @@
-//
-//  ErrorStateView.swift
-//  APIPOKEMON
-//
-//  Pantalla de fallo con reintento. Cubre red caída y error de la API.
-//  Clean Code — responsabilidad única: mostrar el mensaje y el botón.
-//
 
 import SwiftUI
 
@@ -25,7 +18,7 @@ struct ErrorStateView: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.primary)
 
-            Button("Reintentar", action: retry)
+            Button("Try again", action: retry)
                 .buttonStyle(.borderedProminent)
         }
         .padding(24)
